@@ -1,0 +1,11 @@
+# Common generated files
+.DS_Store
+Thumbs.db
+*.log
+
+# Common embedded build outputs
+build/
+.pio/
+*.elf
+*.bin
+*.map
