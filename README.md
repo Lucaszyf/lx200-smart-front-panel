@@ -4,7 +4,6 @@
 
 This project redesigns a telescope front panel to add modern wired and wireless connectivity while retaining the original control pathway. The design combines a hardware-switched serial-routing matrix with FreeRTOS firmware, allowing the user to choose between direct hardware passthrough and an alternate keypad-translation control path.
 
-> **Project status:** This README documents the product requirements, proposed hardware architecture, firmware requirements, and planned validation. A requirement or planned test described here should not be read as proof that the feature is implemented or has passed testing. Add measured results as they become available.
 
 ## At a Glance
 
@@ -190,66 +189,5 @@ The product requirements specify Wi-Fi operation in both Station (client) and Ac
 
 Wireless command injection is mode-dependent: A2 provides a serial stream through UART2 into the direct hardware path, while B2 routes wireless commands internally through the translation engine and UART1. B2 must not use UART2 as a command loopback path.
 
-## Validation and Acceptance Tests
-
-The PRD and FRD define the following verification areas. They are listed here as **test targets**, not as completed results.
-
-### Routing and communications
-
-- Verify Mode A direct hardware passthrough for RS-232 and USB-C.
-- Verify A2 wireless-to-serial forwarding through UART2 and the Mode A routing path.
-- Verify B0 and B1 host input is parsed and translated to keypad commands through UART1.
-- Verify B2 wireless commands enter the translation engine directly and that UART2 receive data is ignored and UART2 transmission remains inactive.
-- Verify bidirectional handset and motherboard communication in Mode B.
-- Verify serial operation at the specified 9600 baud rate.
-
-### Priority, timing, and state
-
-- Verify the 50 ms debounce behavior of both switches and check that transitions do not cause routing jitter or OLED flicker.
-- Verify that a stable illegal `11` selector code preserves the last valid route and produces one fault notification on entry.
-- Verify safe boot behavior and that the motherboard-facing transmit gate is disabled until the required initialization and mode checks are complete.
-- Verify physical handset data takes priority over host injection and that a physical key press cancels an active macro sequence within the specified response target.
-- Verify the virtual-handset model records the state of a macro interrupted by manual input.
-- Verify the handset-idle arbitration rule after its final timeout value is reconciled (see note below).
-- Verify buffer flushing and clean reinitialization during stable mode changes.
-
-### OLED, power, and protection
-
-- Verify that asynchronous OLED refresh does not cause serial data loss and that display mirroring does not block UART forwarding.
-- Verify display timeout and recovery behavior after an I²C bus fault.
-- Measure the local 5 V rail under the intended 18 V input and check the specified ripple target.
-- Verify reverse-polarity protection, interface protection, and no back-powering of the motherboard from the local 5 V rail.
-- Verify the hardware passthrough path remains functional with the ESP32 isolated from the primary host data path in Mode A.
-
-## Open Requirement to Reconcile
-
-The PRD specifies that automated host commands should wait until the handset has been idle for **500 ms**, while the FRD defines `HANDSET_IDLE_TIMEOUT_MS` as **200 ms**. The FRD also describes a possible short inter-frame insertion behavior for certain handset packet gaps. These timing rules are not identical and should be reconciled before implementation and acceptance testing treat the arbitration timing as finalized.
-
-The FRD also specifies key-hold and key-gap timing for virtual handset sequences. The implementation should use named configuration constants for these values rather than scattered hard-coded delays, then validate them against the actual motherboard and handset behavior.
-
-## Repository Layout
-
-```text
-.
-├── README.md
-├── .gitignore
-├── assets/
-│   ├── schematic-overview.pdf
-│   ├── pcb-render-1.jpg
-│   └── pcb-render-2.jpg
-├── hardware/
-│   ├── schematic/       # Native schematic and related source files
-│   └── pcb/             # Native PCB design/source files
-└── firmware/
-    ├── include/         # Headers and configuration
-    └── src/             # Firmware source code
-```
-
-## Project Files
-
-- **Schematic overview:** The three-page PDF is linked above as `assets/schematic-overview.pdf`.
-- **PCB renders:** Two board render images are shown above in `assets/`.
-- **Editable hardware source:** Add the native schematic project to [`hardware/schematic/`](hardware/schematic/) and the native PCB project to [`hardware/pcb/`](hardware/pcb/).
-- **Firmware source:** Add the ESP32-S3 application code and its header/configuration files to [`firmware/src/`](firmware/src/) and [`firmware/include/`](firmware/include/).
 
 The native hardware project and source code are the authoritative implementation references. The images are overview visuals and are not substitutes for the editable source files.
