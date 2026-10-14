@@ -15,7 +15,7 @@ This project redesigns a telescope front panel to add modern wired and wireless 
 - **Local interface:** OLED status and power telemetry display
 - **Power input:** External 18 V, converted locally to a regulated 5 V rail
 - **Hardware design files:** [Schematic source](hardware/schematic/) · [PCB source](hardware/pcb/)
-- **Firmware:** [Source files](firmware/src/) · [Headers and configuration](firmware/include/)
+- **Firmware:** [Source files](firmware/src/)
 
 ## Project Goals
 
