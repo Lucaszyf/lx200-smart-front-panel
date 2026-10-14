@@ -1,6 +1,6 @@
-# LX200 Smart Front Panel
+# Meade LX200 Classic Smart Front Panel
 
-An ESP32-S3-based front-panel retrofit concept for an LX200 telescope-control system. The design adds USB-C, Wi-Fi, and Bluetooth connectivity while preserving a hardware passthrough mode and providing a keypad-translation fallback mode.
+An ESP32-S3-based front-panel retrofit concept for a Meade LX200 Classic telescope-control system. The design adds USB-C, Wi-Fi, and Bluetooth connectivity while preserving a hardware passthrough mode and providing a keypad-translation fallback mode.
 
 > **Project status:** This repository documents the design and its intended behavior. Test results should be added only after the corresponding tests have been run.
 
