@@ -2,7 +2,6 @@
 
 An ESP32-S3-based front-panel retrofit concept for a Meade LX200 Classic telescope-control system. The design adds USB-C, Wi-Fi, and Bluetooth connectivity while preserving a hardware passthrough mode and providing a keypad-translation fallback mode.
 
-> **Project status:** This repository documents the design and its intended behavior. Test results should be added only after the corresponding tests have been run.
 
 ## Overview
 
@@ -63,39 +62,6 @@ The three hardware UARTs are assigned to the hand controller, motherboard keypad
 
 Serial forwarding is designed to take priority over display updates. Automated keypad actions should begin from a known UI baseline, and a physical key press should interrupt an in-progress automated sequence so the user can regain control.
 
-## Validation Plan
 
-The firmware requirements identify these main acceptance-test areas:
-
-- Mode A passthrough across supported input sources.
-- Mode B command translation and keypad injection.
-- Physical hand-controller priority and interruption of automation.
-- Switch debouncing, invalid-state handling, and safe startup gating.
-- UART2 isolation in wireless Mode B.
-- OLED responsiveness and recovery from an I²C bus fault.
-- Power-rail stability and protection against back-powering.
-
-These are verification targets, not a statement that every test has passed. Confirmed results and measurements can be recorded alongside the relevant source or hardware files.
-
-## Repository Layout
-
-```text
-.
-├── README.md
-├── assets/
-│   ├── schematic-overview-page-1.jpg
-│   ├── schematic-overview-page-2.jpg
-│   ├── schematic-overview-page-3.jpg
-│   ├── pcb-render-1.jpg
-│   └── pcb-render-2.jpg
-├── hardware/
-│   ├── schematic/    # Native schematic project/source files
-│   └── pcb/          # Native PCB project/source files
-└── firmware/
-    ├── include/      # Headers and configuration
-    └── src/           # Firmware source files
-```
-
-## Notes
 
 The hardware and firmware specifications currently differ on the handset-idle arbitration timeout (500 ms in the product requirements and 200 ms in the firmware requirements). That value should be reconciled before documenting the timing as finalized.
