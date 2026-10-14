@@ -1,4 +1,4 @@
-# LX200 Smart Front Panel
+# Meaded LX200 Classic Smart Front Panel
 
 **An ESP32-S3-based front-panel retrofit for a legacy LX200 telescope-control system**
 
